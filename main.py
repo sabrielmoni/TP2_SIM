@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import *
 import sys
 from ui import *
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 class AppWin(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -12,6 +13,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
     def generador(self):
         indice = 0
         tabla = self.tableWidget
+
+        datos = []
 
         if (self.mediaTextEdit.text() != "" and self.desvTextEdit.text() != ""):
             for i in range(round(int(self.valoresTextEdit.text())/2)+1):
@@ -26,12 +29,22 @@ class AppWin(QMainWindow, Ui_MainWindow):
                     indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
                 tabla.setItem(indice, 1, QtWidgets.QTableWidgetItem(str(a[0])))
 
+
                 indice = tabla.rowCount()
                 tabla.insertRow(indice)
 
                 tabla.setItem(
                     indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
                 tabla.setItem(indice, 1, QtWidgets.QTableWidgetItem(str(a[1])))
+
+                datos.append(a[0])
+                datos.append(a[1])
+
+            plt.hist(datos, bins=int(self.intervalosComboBox.currentText()))
+            plt.xlabel("Intervalos")
+            plt.ylabel("Frecuencia")
+            plt.show()
+                
 
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
             for i in range(int(self.valoresTextEdit.text())):
@@ -41,6 +54,16 @@ class AppWin(QMainWindow, Ui_MainWindow):
                                  float(self.bTextEdit.text()))
                 tabla.setItem(i, 0, QtWidgets.QTableWidgetItem(str(i+1)))
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
+
+                datos.append(a)
+                
+
+            plt.hist(datos, bins=int(self.intervalosComboBox.currentText()))
+            plt.xlabel("Intervalos")
+            plt.ylabel("Frecuencia")
+            plt.xticks(np.arange(min(datos), max(datos)+1, ((max(datos) - min(datos)) / int(self.intervalosComboBox.currentText() ) )))
+            plt.show()
+            
 
         elif (self.lambdaExpTextEdit.text() != ""):
             for i in range(int(self.valoresTextEdit.text())):
