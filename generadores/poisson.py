@@ -10,7 +10,3 @@ def poisson(lmbd):
         p = p * rnd
         x += 1
     return x
-
-
-for i in range(10):
-    print(poisson(10))
