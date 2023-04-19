@@ -112,6 +112,7 @@ class Ui_MainWindow(object):
         self.limpiarPushButton = QtWidgets.QPushButton(self.tabGenerador)
         self.limpiarPushButton.setGeometry(QtCore.QRect(620, 440, 81, 26))
         self.limpiarPushButton.setObjectName("limpiarPushButton")
+        self.limpiarPushButton.clicked.connect(self.limpiarCampos)
         self.tabWidget.addTab(self.tabGenerador, "")
         self.tabChiCuadrado = QtWidgets.QWidget()
         self.tabChiCuadrado.setObjectName("tabChiCuadrado")

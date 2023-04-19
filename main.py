@@ -4,6 +4,10 @@ from ui import *
 import matplotlib.pyplot as plt
 import numpy as np
 import math 
+from generadores.intervalo import Intervalo
+
+
+
 
 class AppWin(QMainWindow, Ui_MainWindow):
 
@@ -18,13 +22,15 @@ class AppWin(QMainWindow, Ui_MainWindow):
             Calcula la distribucion correspondiente, y muestra sus valores en una tabla'''
         indice = 0
         tabla = self.tableWidget
+        
+        n = int(self.valoresTextEdit.text())
+        
 
         datos = []
         
-
+        #DISTRIBUCION NORMAL
         if (self.mediaTextEdit.text() != "" and self.desvTextEdit.text() != ""): #DATOS INGRESADOS PARA DISTRIBUCION NORMAL
             
-            n = int(self.valoresTextEdit.text())
             es_impar = (n % 2 == 1 )
             
             if es_impar:
@@ -66,10 +72,25 @@ class AppWin(QMainWindow, Ui_MainWindow):
                     datos.append(a[0])
                     datos.append(a[1])
 
+            # generarPruebaCHI()
+
+            # generarPruebaKS()
 
         #DISTRIBUCION UNIFORME
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""): 
-            for i in range(int(self.valoresTextEdit.text())):
+
+            
+            intervalos = [0] * int(self.intervalosComboBox.currentText())
+            desde = int(self.aTextEdit.text())
+            hasta = int(self.bTextEdit.text())
+            paso = (hasta-desde)/ int(self.intervalosComboBox.currentText())
+
+            for i in range(len(intervalos)):
+                
+                intervalos[i] = Intervalo(desde, desde+paso- 0.0001, 0)
+                desde += paso
+
+            for i in range(n):
                 uni = uniforme
                 tabla.insertRow(i)
                 a = uni.uniforme(float(self.aTextEdit.text()),
@@ -77,12 +98,23 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 0, QtWidgets.QTableWidgetItem(str(i+1)))
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
+                
+                for j in range(len(intervalos)):
+                    
+                    if((a >= intervalos[j].desde) and (a <= intervalos[j].hasta)):
+                        intervalos[j].cantidad += 1
+                        
+                        break
+                    
+
                 datos.append(a)
+            print("fin")
+            # generarPruebaChi()
             
 
         #DISTRIBUCION EXPONENCIAL
         elif (self.lambdaExpTextEdit.text() != ""): #DATOS INGRESADOS PARA DISTRIBUCION NORMAL
-            for i in range(int(self.valoresTextEdit.text())):
+            for i in range(n):
                 exp = exponencial
                 tabla.insertRow(i)
                 a = exp.exponencial(float(self.lambdaExpTextEdit.text()))
@@ -94,7 +126,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
         #DISTRIBUCION POISSON
         elif (self.lambdaPoissonTextEdit.text() != ""): 
-            for i in range(int(self.valoresTextEdit.text())):
+            for i in range(n):
                 poi = poisson
                 tabla.insertRow(i)
                 a = poisson.poisson(float(self.lambdaPoissonTextEdit.text()))
@@ -106,32 +138,52 @@ class AppWin(QMainWindow, Ui_MainWindow):
         
         
     def generarGrafico(self):
+
+        
         tabla = self.tableWidget
         datos = []
         n = tabla.rowCount()
 
-        for i in range(n):
-            datos.append(float(tabla.item(i,1).text()))
-        
-        #VER SI SE APLICAN LOS INTERVALOS EN POISSON O SE CALCULA SOLO
+        if (n != 0):
 
-        if(self.lambdaPoissonTextEdit.text() != ""):
-            plt.hist(datos)
-        
-        else:
-            tics = [0] * (int(self.intervalosComboBox.currentText())+1)
-            acum = min(datos)
-            for i in range(len(tics)):
-                tics[i] = acum
-                acum += (max(datos) - min(datos)) / int(self.intervalosComboBox.currentText() )
+            for i in range(n):
+                datos.append(float(tabla.item(i,1).text()))
+            
+            #VER SI SE APLICAN LOS INTERVALOS EN POISSON O SE CALCULA SOLO
+
+            if(self.lambdaPoissonTextEdit.text() != ""): #CHECKEA SI ES POISSON, VIENDO SI EL PARAMETRO ES != ""
+                plt.hist(datos)
+            
+            else:
                 
-            plt.hist(datos, bins=int(self.intervalosComboBox.currentText()))
-            plt.xticks( tics )
+                tics = [0] * (int(self.intervalosComboBox.currentText())+1) # TICS = CANTIDAD DE MARCAS DE INTERVALO EN EL GRAFICO
+                acum = min(datos)
 
-        plt.xlabel("Intervalos")
-        plt.ylabel("Frecuencia")
-        plt.show()
+                for i in range(len(tics)):
+                    tics[i] = acum
+                    acum += (max(datos) - min(datos)) / int(self.intervalosComboBox.currentText() )
+                    
+                plt.hist(datos, bins=int(self.intervalosComboBox.currentText()))
+                plt.xticks( tics )
+
+            plt.xlabel("Intervalos")
+            plt.ylabel("Frecuencia")
+            plt.show()
         
+        
+            
+        
+
+    def limpiarCampos(self):
+        '''Limpia todos los campos y las tablas en cada pantalla'''
+        self.aTextEdit.setText("")
+        self.bTextEdit.setText("")
+        self.mediaTextEdit.setText("")
+        self.desvTextEdit.setText("")
+        self.lambdaExpTextEdit.setText("")
+        self.lambdaPoissonTextEdit.setText("")
+        self.valoresTextEdit.setText("")
+        self.tableWidget.setRowCount(0)
 
 
 # se inicia pantalla y app
