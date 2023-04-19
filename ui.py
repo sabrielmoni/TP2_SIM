@@ -245,9 +245,9 @@ class Ui_MainWindow(object):
         item = self.chiTableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Frec.  Esperada"))
         item = self.chiTableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "(fo-fe)^2"))
+        item.setText(_translate("MainWindow", "C"))
         item = self.chiTableWidget.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "Sumatoria"))
+        item.setText(_translate("MainWindow", "C(ac)"))
         self.chiCalculadoLabel.setText(
             _translate("MainWindow", "Chi Calculado"))
         self.chiTabuladoLabel.setText(_translate("MainWindow", "Chi Tabulado"))

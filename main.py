@@ -71,7 +71,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                     datos.append(a[0])
                     datos.append(a[1])
-
+            Intervalo.normalChi(self, datos)
             # generarPruebaCHI()
 
             # generarPruebaKS()
@@ -119,6 +119,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
                 datos.append(a)
+            Intervalo.exponencialChi(self, datos)
 
         # DISTRIBUCION POISSON
         elif (self.lambdaPoissonTextEdit.text() != ""):
@@ -130,6 +131,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
                 datos.append(a)
+
+            Intervalo.poissonChi(self, datos)
 
     def generarGrafico(self):
 
