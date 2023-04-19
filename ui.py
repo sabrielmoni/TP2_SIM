@@ -11,6 +11,7 @@ from generadores import normal, exponencial, poisson, uniforme
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -103,7 +104,7 @@ class Ui_MainWindow(object):
         self.generarGraficoPushButton.setGeometry(
             QtCore.QRect(530, 480, 171, 26))
         self.generarGraficoPushButton.setObjectName("generarGraficoPushButton")
-        self.generarGraficoPushButton.clicked.connect(self.prueba)
+        self.generarGraficoPushButton.clicked.connect(self.generarGrafico)
         self.generarPushButton = QtWidgets.QPushButton(self.tabGenerador)
         self.generarPushButton.setGeometry(QtCore.QRect(530, 440, 81, 26))
         self.generarPushButton.setObjectName("generarPushButton")
@@ -272,6 +273,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(
             self.tabKS), _translate("MainWindow", "Prueba K-S"))
 
+    
 
 if __name__ == "__main__":
     import sys
