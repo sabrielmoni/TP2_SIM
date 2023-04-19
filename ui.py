@@ -11,7 +11,6 @@ from generadores import normal, exponencial, poisson, uniforme
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -238,14 +237,16 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(
             self.tabGenerador), _translate("MainWindow", "Generador"))
         item = self.chiTableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Intervalos"))
+        item.setText(_translate("MainWindow", "Desde"))
         item = self.chiTableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Frec.  Obtenida"))
+        item.setText(_translate("MainWindow", "Hasta"))
         item = self.chiTableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Frec.  Esperada"))
+        item.setText(_translate("MainWindow", "Frec.  Obtenida"))
         item = self.chiTableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "(fo-fe)^2"))
+        item.setText(_translate("MainWindow", "Frec.  Esperada"))
         item = self.chiTableWidget.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "(fo-fe)^2"))
+        item = self.chiTableWidget.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "Sumatoria"))
         self.chiCalculadoLabel.setText(
             _translate("MainWindow", "Chi Calculado"))
@@ -274,7 +275,6 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(
             self.tabKS), _translate("MainWindow", "Prueba K-S"))
 
-    
 
 if __name__ == "__main__":
     import sys

@@ -3,15 +3,12 @@ import sys
 from ui import *
 import matplotlib.pyplot as plt
 import numpy as np
-import math 
+import math
 from generadores.intervalo import Intervalo
-
-
 
 
 class AppWin(QMainWindow, Ui_MainWindow):
 
-    
     def __init__(self):
 
         QMainWindow.__init__(self)
@@ -22,53 +19,56 @@ class AppWin(QMainWindow, Ui_MainWindow):
             Calcula la distribucion correspondiente, y muestra sus valores en una tabla'''
         indice = 0
         tabla = self.tableWidget
-        
+
         n = int(self.valoresTextEdit.text())
-        
 
         datos = []
-        
-        #DISTRIBUCION NORMAL
-        if (self.mediaTextEdit.text() != "" and self.desvTextEdit.text() != ""): #DATOS INGRESADOS PARA DISTRIBUCION NORMAL
-            
-            es_impar = (n % 2 == 1 )
-            
+
+        # DISTRIBUCION NORMAL
+        # DATOS INGRESADOS PARA DISTRIBUCION NORMAL
+        if (self.mediaTextEdit.text() != "" and self.desvTextEdit.text() != ""):
+
+            es_impar = (n % 2 == 1)
+
             if es_impar:
                 vueltas = math.trunc(n/2) + 1
             else:
                 vueltas = math.trunc(n/2)
 
-            
-            for i in range(vueltas): #Itera en la cantidad de numeros pedidos
-                nom = normal                                           #Divide por dos porque como es normal, genera dos numeros 
+            for i in range(vueltas):  # Itera en la cantidad de numeros pedidos
+                nom = normal  # Divide por dos porque como es normal, genera dos numeros
                 a = nom.normal(float(self.mediaTextEdit.text()),
                                float(self.desvTextEdit.text()))
-                
 
-                if((i == (vueltas-1)) and es_impar):
+                if ((i == (vueltas-1)) and es_impar):
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
-                    tabla.setItem(indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
-                    tabla.setItem(indice, 1, QtWidgets.QTableWidgetItem(str(a[0])))
+                    tabla.setItem(
+                        indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
+                    tabla.setItem(
+                        indice, 1, QtWidgets.QTableWidgetItem(str(a[0])))
 
                     datos.append(a[0])
-                    
+
                 else:
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
-                    
-                    tabla.setItem(indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
-                    tabla.setItem(indice, 1, QtWidgets.QTableWidgetItem(str(a[0])))
 
+                    tabla.setItem(
+                        indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
+                    tabla.setItem(
+                        indice, 1, QtWidgets.QTableWidgetItem(str(a[0])))
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
 
-                    tabla.setItem(indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
-                    tabla.setItem(indice, 1, QtWidgets.QTableWidgetItem(str(a[1])))
-                    
+                    tabla.setItem(
+                        indice, 0, QtWidgets.QTableWidgetItem(str(indice+1)))
+                    tabla.setItem(
+                        indice, 1, QtWidgets.QTableWidgetItem(str(a[1])))
+
                     datos.append(a[0])
                     datos.append(a[1])
 
@@ -76,18 +76,17 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
             # generarPruebaKS()
 
-        #DISTRIBUCION UNIFORME
-        elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""): 
+        # DISTRIBUCION UNIFORME
+        elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
 
-            
             intervalos = [0] * int(self.intervalosComboBox.currentText())
             desde = int(self.aTextEdit.text())
             hasta = int(self.bTextEdit.text())
-            paso = (hasta-desde)/ int(self.intervalosComboBox.currentText())
+            paso = (hasta-desde) / int(self.intervalosComboBox.currentText())
 
             for i in range(len(intervalos)):
-                
-                intervalos[i] = Intervalo(desde, desde+paso- 0.0001, 0)
+
+                intervalos[i] = Intervalo(desde, desde+paso - 0.0001, 0)
                 desde += paso
 
             for i in range(n):
@@ -98,22 +97,20 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 0, QtWidgets.QTableWidgetItem(str(i+1)))
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
-                
                 for j in range(len(intervalos)):
-                    
-                    if((a >= intervalos[j].desde) and (a <= intervalos[j].hasta)):
+
+                    if ((a >= intervalos[j].desde) and (a <= intervalos[j].hasta)):
                         intervalos[j].cantidad += 1
-                        
+
                         break
-                    
 
                 datos.append(a)
-            print("fin")
-            # generarPruebaChi()
-            
 
-        #DISTRIBUCION EXPONENCIAL
-        elif (self.lambdaExpTextEdit.text() != ""): #DATOS INGRESADOS PARA DISTRIBUCION NORMAL
+            Intervalo.uniformeChi(self, intervalos, int(
+                self.valoresTextEdit.text()))
+
+        # DISTRIBUCION EXPONENCIAL
+        elif (self.lambdaExpTextEdit.text() != ""):  # DATOS INGRESADOS PARA DISTRIBUCION NORMAL
             for i in range(n):
                 exp = exponencial
                 tabla.insertRow(i)
@@ -123,9 +120,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                 datos.append(a)
 
-
-        #DISTRIBUCION POISSON
-        elif (self.lambdaPoissonTextEdit.text() != ""): 
+        # DISTRIBUCION POISSON
+        elif (self.lambdaPoissonTextEdit.text() != ""):
             for i in range(n):
                 poi = poisson
                 tabla.insertRow(i)
@@ -135,11 +131,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                 datos.append(a)
 
-        
-        
     def generarGrafico(self):
 
-        
         tabla = self.tableWidget
         datos = []
         n = tabla.rowCount()
@@ -147,32 +140,32 @@ class AppWin(QMainWindow, Ui_MainWindow):
         if (n != 0):
 
             for i in range(n):
-                datos.append(float(tabla.item(i,1).text()))
-            
-            #VER SI SE APLICAN LOS INTERVALOS EN POISSON O SE CALCULA SOLO
+                datos.append(float(tabla.item(i, 1).text()))
 
-            if(self.lambdaPoissonTextEdit.text() != ""): #CHECKEA SI ES POISSON, VIENDO SI EL PARAMETRO ES != ""
+            # VER SI SE APLICAN LOS INTERVALOS EN POISSON O SE CALCULA SOLO
+
+            # CHECKEA SI ES POISSON, VIENDO SI EL PARAMETRO ES != ""
+            if (self.lambdaPoissonTextEdit.text() != ""):
                 plt.hist(datos)
-            
+
             else:
-                
-                tics = [0] * (int(self.intervalosComboBox.currentText())+1) # TICS = CANTIDAD DE MARCAS DE INTERVALO EN EL GRAFICO
+
+                # TICS = CANTIDAD DE MARCAS DE INTERVALO EN EL GRAFICO
+                tics = [0] * (int(self.intervalosComboBox.currentText())+1)
                 acum = min(datos)
 
                 for i in range(len(tics)):
                     tics[i] = acum
-                    acum += (max(datos) - min(datos)) / int(self.intervalosComboBox.currentText() )
-                    
-                plt.hist(datos, bins=int(self.intervalosComboBox.currentText()))
-                plt.xticks( tics )
+                    acum += (max(datos) - min(datos)) / \
+                        int(self.intervalosComboBox.currentText())
+
+                plt.hist(datos, bins=int(
+                    self.intervalosComboBox.currentText()))
+                plt.xticks(tics)
 
             plt.xlabel("Intervalos")
             plt.ylabel("Frecuencia")
             plt.show()
-        
-        
-            
-        
 
     def limpiarCampos(self):
         '''Limpia todos los campos y las tablas en cada pantalla'''
@@ -184,6 +177,20 @@ class AppWin(QMainWindow, Ui_MainWindow):
         self.lambdaPoissonTextEdit.setText("")
         self.valoresTextEdit.setText("")
         self.tableWidget.setRowCount(0)
+
+    def generarPruebaChi(tipo, datos):
+        if (tipo == "uniforme"):
+            # calculo con intervalos de uniforme
+            pass
+        elif (tipo == "normal"):
+            # calculo con datos de normal
+            pass
+        elif (tipo == "exponencial"):
+            # calculo con datos de exponencial
+            pass
+        else:
+            # calculo con datos de poisson
+            pass
 
 
 # se inicia pantalla y app
