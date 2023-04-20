@@ -75,8 +75,6 @@ class AppWin(QMainWindow, Ui_MainWindow):
             # generarPruebaCHI()
             self.generarPruebaChi("normal", datos)
 
-            Prueba.normalChi(self, datos)
-
         # DISTRIBUCION UNIFORME
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
 
@@ -191,13 +189,13 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
     def generarPruebaChi(self, tipo, datos):
         if (tipo == "uniforme"):
-            Intervalo.uniformeChi(self, datos)
+            Prueba.uniformeChi(self, datos)
         elif (tipo == "normal"):
-            Intervalo.normalChi(self, datos)
+            Prueba.normalChi(self, datos)
         elif (tipo == "exponencial"):
-            Intervalo.exponencialChi(self, datos)
+            Prueba.exponencialChi(self, datos)
         else:
-            Intervalo.poissonChi(self, datos)
+            Prueba.poissonChi(self, datos)
 
 
 # se inicia pantalla y app
