@@ -72,8 +72,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                     datos.append(a[0])
                     datos.append(a[1])
-            Intervalo.normalChi(self, datos)
             # generarPruebaCHI()
+            self.generarPruebaChi("normal", datos)
 
             # generarPruebaKS()
 
@@ -107,8 +107,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                 datos.append(a)
 
-            Intervalo.uniformeChi(self, intervalos, int(
-                self.valoresTextEdit.text()))
+            self.generarPruebaChi("uniforme", intervalos)
 
         # DISTRIBUCION EXPONENCIAL
         elif (self.lambdaExpTextEdit.text() != ""):  # DATOS INGRESADOS PARA DISTRIBUCION NORMAL
@@ -120,7 +119,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
                 datos.append(a)
-            Intervalo.exponencialChi(self, datos)
+            self.generarPruebaChi("exponencial", datos)
 
         # DISTRIBUCION POISSON
         elif (self.lambdaPoissonTextEdit.text() != ""):
@@ -133,7 +132,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                 datos.append(a)
 
-            Intervalo.poissonChi(self, datos)
+            self.generarPruebaChi("poisson", datos)
 
     def generarGrafico(self):
 
@@ -190,19 +189,15 @@ class AppWin(QMainWindow, Ui_MainWindow):
         self.chiTabuladoTextEdit.setText("")
         self.chiCalculadoTextEdit.setText("")
 
-    def generarPruebaChi(tipo, datos):
+    def generarPruebaChi(self, tipo, datos):
         if (tipo == "uniforme"):
-            # calculo con intervalos de uniforme
-            pass
+            Intervalo.uniformeChi(self, datos)
         elif (tipo == "normal"):
-            # calculo con datos de normal
-            pass
+            Intervalo.normalChi(self, datos)
         elif (tipo == "exponencial"):
-            # calculo con datos de exponencial
-            pass
+            Intervalo.exponencialChi(self, datos)
         else:
-            # calculo con datos de poisson
-            pass
+            Intervalo.poissonChi(self, datos)
 
 
 # se inicia pantalla y app
