@@ -67,18 +67,6 @@ class Intervalo:
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
 
-        # for i in range(cantidadIntervalos):
-        #     if (datos[i].cantidad < 5):
-        #         contador = 0
-        #         for j in range(cantidadIntervalos-i):
-        #             contador += datos[j+i].cantidad
-        #         if(contador < 5):
-        #             datos[i-1].cantidad += datos[i].cantidad
-        #             datos[i-1].hasta = datos[i].hasta
-        #         else:
-        #             datos[i].cantidad = contador
-        #             datos[i].hasta = datos[cantidadIntervalos-1]
-
     def normalChi(self, datos):
         tabla = self.chiTableWidget
         minimo = min(datos)
@@ -226,3 +214,50 @@ class Intervalo:
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
+
+        # vec = []
+        # var = False
+        # ind = -2
+        # for i in range(cantidadIntervalos):
+        #     if(ind != -1):
+        #         if(intervalos[i].cantidad < 5):
+        #             if (var):
+        #                 intervalos[ind].cantidad += intervalos[i].cantidad
+        #                 self.
+        #                 intervalos[ind].hasta = intervalos[cantidadIntervalos].hasta
+        #             else:
+        #                 if(i != 0):
+        #                     ind = i-1
+        #                 else:
+        #                     ind = -1
+        #                 var = True
+        #     else:
+        #         if(intervalos[i].cantidad < 5):
+        #             pass
+        #         else:
+        #             ind = i
+
+        #     else:
+        #         for j in range(cantidadIntervalos-i):
+        #             contador += intervalos[j+i].cantidad
+        #         if(contador < 5):
+        #             intervalos[i-1].cantidad += intervalos[i].cantidad
+        #             intervalos[i-1].hasta = intervalos[i].hasta
+        #         else:
+        #             intervalos[i].cantidad = contador
+        #             intervalos[i].hasta = intervalos[cantidadIntervalos-1]
+
+        # for i in range(cantidadIntervalos):
+        #     for j in vec:
+        #         if (j == i and j>2):
+        #             intervalos[j]
+
+        #         contador = 0
+        #         for j in range(cantidadIntervalos-i):
+        #             contador += datos[j+i].cantidad
+        #         if(contador < 5):
+        #             datos[i-1].cantidad += datos[i].cantidad
+        #             datos[i-1].hasta = datos[i].hasta
+        #         else:
+        #             datos[i].cantidad = contador
+        #             datos[i].hasta = datos[cantidadIntervalos-1]

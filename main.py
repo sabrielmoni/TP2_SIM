@@ -180,6 +180,14 @@ class AppWin(QMainWindow, Ui_MainWindow):
         self.lambdaPoissonTextEdit.setText("")
         self.valoresTextEdit.setText("")
         self.tableWidget.setRowCount(0)
+        self.chiTableWidget.setRowCount(0)
+        self.ksTableWidget.setRowCount(0)
+        self.resultadoKsTextEdit.setText("")
+        self.ksCalculadoLineEdit.setText("")
+        self.ksTabuladoLineEdit.setText("")
+        self.resultadoChiTextEdit.setText("")
+        self.chiTabuladoTextEdit.setText("")
+        self.chiCalculadoTextEdit.setText("")
 
     def generarPruebaChi(tipo, datos):
         if (tipo == "uniforme"):
