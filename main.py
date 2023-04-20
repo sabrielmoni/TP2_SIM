@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import *
 import sys
 from ui import *
 import matplotlib.pyplot as plt
@@ -206,6 +207,10 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
 # se inicia pantalla y app
 if __name__ == '__main__':
+    app = QApplication(sys.argv)  # create an instance of the application
+    appWin = AppWin()  # create an instance of a window
+    appWin.show()  # to make the window visible
+    app.exec()  # to start up the event loop
     app = QApplication(sys.argv)  # create an instance of the application
     appWin = AppWin()  # create an instance of a window
     appWin.show()  # to make the window visible
