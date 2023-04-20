@@ -5,7 +5,7 @@ from ui import *
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from generadores.intervalo import Intervalo
+from pruebasAjuste import Prueba
 
 
 class AppWin(QMainWindow, Ui_MainWindow):
@@ -75,7 +75,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
             # generarPruebaCHI()
             self.generarPruebaChi("normal", datos)
 
-            # generarPruebaKS()
+            Prueba.normalChi(self, datos)
 
         # DISTRIBUCION UNIFORME
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
@@ -87,7 +87,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
             for i in range(len(intervalos)):
 
-                intervalos[i] = Intervalo(desde, desde+paso - 0.0001, 0)
+                intervalos[i] = Prueba(desde, desde+paso - 0.0001, 0)
                 desde += paso
 
             for i in range(n):
