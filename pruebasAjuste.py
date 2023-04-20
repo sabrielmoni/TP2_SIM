@@ -5,10 +5,11 @@ import math
 def tabuladoChi(v):
     tabuladoChi = [3.84, 5.99, 7.81, 9.49, 11.1, 12.6, 14.1, 15.5, 16.9,
                    18.3, 19.7, 21.0, 22.4, 23.7, 25.0, 26.3, 27.6, 28.9,
-                 30.1, 31.4, 32.7, 33.9, 35.2, 36.4, 37.7, 38.9, 40.1, 41.3, 42.6, 43.8]
+                   30.1, 31.4, 32.7, 33.9, 35.2, 36.4, 37.7, 38.9, 40.1, 41.3, 42.6, 43.8]
     return tabuladoChi[v-1]
 
-def tabuladoKS (n):
+
+def tabuladoKS(n):
     tabuladoKS = [0.975, 0.84189, 0.70760, 0.62394, 0.56328, 0.51926, 0.48342, 0.45427,
                   0.43001, 0.40925, 0.39122, 0.37543, 0.36143, 0.3489, 0.3375, 0.32733,
                   0.31796, 0.30936, 0.30143, 0.29408, 0.28724, 0.28087, 0.2749, 0.26931,
@@ -19,6 +20,7 @@ def tabuladoKS (n):
     else:
         tabuladoKS = tabuladoKS[n-1]
     return tabuladoKS
+
 
 def validacion(calculado, tabulado):
     if (calculado <= tabulado):
@@ -37,7 +39,7 @@ class Prueba:
         '''Calcula chi cuadrado para la distribucion uniforme
             entran intervalos con fo'''
         tablaChi = self.chiTableWidget
-        tablaKS= self.ksTableWidget
+        tablaKS = self.ksTableWidget
 
         cantidadIntervalos = len(intervalos)
         cantidadMuestra = int(self.valoresTextEdit.text())
@@ -95,26 +97,25 @@ class Prueba:
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
                 str(valorAbs)))
-            
+
             if maximo < valorAbs:
                 maximo = valorAbs
-
 
         v = cantidadIntervalos - 1 - 0
         tabuladochi = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabuladochi))
-        self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabuladochi))
+        self.resultadoChiTextEdit.setPlainText(
+            validacion(sumatoria, tabuladochi))
 
         tabuladoks = tabuladoKS(cantidadMuestra)
         self.ksCalculadoLineEdit.setPlainText(str(maximo))
         self.ksTabuladoLineEdit.setPlainText(str(tabuladoks))
         self.resultadoKsTextEdit.setPlainText(validacion(maximo, tabuladoks))
 
-
     def normalChi(self, datos):
         tablaChi = self.chiTableWidget
-        tablaKS= self.ksTableWidget
+        tablaKS = self.ksTableWidget
 
         minimo = min(datos)
         maximo = max(datos)
@@ -138,7 +139,7 @@ class Prueba:
                 if ((datos[i] >= intervalos[j].desde) and (datos[i] <= intervalos[j].hasta)):
                     intervalos[j].cantidad += 1
                     break
-        
+
         for i in range(cantidadIntervalos):
             tablaChi.insertRow(i)
             tablaKS.insertRow(i)
@@ -146,11 +147,11 @@ class Prueba:
             x = (intervalos[i].desde + intervalos[i].hasta)/2
             probabilidadEsperada = (math.pow(math.e, (-0.5*(math.pow((x-media)/desviacionEstandar, 2)))))/(
                 desviacionEstandar*math.sqrt(2*math.pi)) * paso
-            probabilidadObservada = intervalos[i].cantidad / cantidadMuestra 
+            probabilidadObservada = intervalos[i].cantidad / cantidadMuestra
             frecuenciaEsperada = probabilidadEsperada * cantidadMuestra
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
-            
+
             tablaChi.setItem(i, 0, QTableWidgetItem(
                 str(intervalos[i].desde)))
             tablaChi.setItem(i, 1, QTableWidgetItem(
@@ -191,7 +192,7 @@ class Prueba:
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
                 str(valorAbs)))
-            
+
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
@@ -208,8 +209,8 @@ class Prueba:
 
     def exponencialChi(self, datos):
         tablaChi = self.chiTableWidget
-        tablaKS= self.ksTableWidget
-        
+        tablaKS = self.ksTableWidget
+
         minimo = min(datos)
         maximo = max(datos)
         lmbd = float(self.lambdaExpTextEdit.text())
@@ -242,7 +243,7 @@ class Prueba:
             frecuenciaEsperada = probabilidadEsperada * cantidadMuestra
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
-            
+
             tablaChi.setItem(i, 0, QTableWidgetItem(
                 str(intervalos[i].desde)))
             tablaChi.setItem(i, 1, QTableWidgetItem(
@@ -284,10 +285,10 @@ class Prueba:
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
                 str(valorAbs)))
-            
+
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
-            
+
         v = cantidadIntervalos - 1 - 1
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))

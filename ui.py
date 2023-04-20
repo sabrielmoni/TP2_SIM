@@ -194,7 +194,7 @@ class Ui_MainWindow(object):
         self.ksTabuladoLabel.setGeometry(QtCore.QRect(10, 470, 91, 16))
         self.ksTabuladoLabel.setObjectName("ksTabuladoLabel")
         self.ksCalculadoLineEdit = QtWidgets.QTextEdit(self.tabKS)
-        self.ksCalculadoLineEdit.setGeometry(QtCore.QRect(110, 440, 181, 22)) 
+        self.ksCalculadoLineEdit.setGeometry(QtCore.QRect(110, 440, 181, 22))
         self.ksCalculadoLineEdit.setObjectName("ksCalculadoLineEdit")
         self.ksTabuladoLineEdit = QtWidgets.QTextEdit(self.tabKS)
         self.ksTabuladoLineEdit.setGeometry(QtCore.QRect(110, 470, 181, 22))
