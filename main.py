@@ -41,7 +41,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 a = nom.normal(float(self.mediaTextEdit.text()),
                                float(self.desvTextEdit.text()))
 
-                if ((i == (vueltas-1)) and es_impar):
+                if ((i == (vueltas-1)) and es_impar): #Si es la ultima vuelta y la cantidad es impar, guarda uno de los dos numeros
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
@@ -52,7 +52,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                     datos.append(a[0])
 
-                else:
+                else: #si no es la ultima vuelta en impar, o si es un numero par de vueltas, agrega los dos
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
@@ -73,11 +73,13 @@ class AppWin(QMainWindow, Ui_MainWindow):
                     datos.append(a[0])
                     datos.append(a[1])
             # generarPruebaCHI()
+
             self.generarPruebaChi("normal", datos)
 
         # DISTRIBUCION UNIFORME
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
 
+            
             intervalos = [0] * int(self.intervalosComboBox.currentText())
             desde = int(self.aTextEdit.text())
             hasta = int(self.bTextEdit.text())
@@ -133,17 +135,17 @@ class AppWin(QMainWindow, Ui_MainWindow):
             self.generarPruebaChi("poisson", datos)
 
     def generarGrafico(self):
-
+        '''Genera el grafico para la distribucion generada'''
         tabla = self.tableWidget
         datos = []
         n = tabla.rowCount()
 
-        if (n != 0):
+        if (n != 0): #verifica que se hayan generados datos primero, sino no genera el grafico
 
-            for i in range(n):
+            for i in range(n): # agrega los RND generados al vector que luego se usa para generar el grafico
                 datos.append(float(tabla.item(i, 1).text()))
 
-            # VER SI SE APLICAN LOS INTERVALOS EN POISSON O SE CALCULA SOLO
+            
 
             # CHECKEA SI ES POISSON, VIENDO SI EL PARAMETRO ES != ""
             if (self.lambdaPoissonTextEdit.text() != ""):
@@ -155,7 +157,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tics = [0] * (int(self.intervalosComboBox.currentText())+1)
                 acum = min(datos)
 
-                for i in range(len(tics)):
+                for i in range(len(tics)): #genera vector con los valores a poner en las marcas delgrafico
                     tics[i] = acum
                     acum += (max(datos) - min(datos)) / \
                         int(self.intervalosComboBox.currentText())
@@ -188,6 +190,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
         self.chiCalculadoTextEdit.setText("")
 
     def generarPruebaChi(self, tipo, datos):
+        '''Genera las pruebas dependiendo del tipo de distribucion cargada'''
         if (tipo == "uniforme"):
             Prueba.uniformeChi(self, datos)
         elif (tipo == "normal"):
