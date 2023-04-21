@@ -21,7 +21,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
         indice = 0
         tabla = self.tableWidget
 
-        n = int(self.valoresTextEdit.text()) # cantidad de valores a generar
+        n = int(self.valoresTextEdit.text())  # cantidad de valores a generar
 
         datos = []
 
@@ -41,7 +41,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 a = nom.normal(float(self.mediaTextEdit.text()),
                                float(self.desvTextEdit.text()))
 
-                if ((i == (vueltas-1)) and es_impar): #Si es la ultima vuelta y la cantidad es impar, guarda uno de los dos numeros
+                # Si es la ultima vuelta y la cantidad es impar, guarda uno de los dos numeros
+                if ((i == (vueltas-1)) and es_impar):
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
@@ -52,7 +53,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
                     datos.append(a[0])
 
-                else: #si no es la ultima vuelta en impar, o si es un numero par de vueltas, agrega los dos
+                else:  # si no es la ultima vuelta en impar, o si es un numero par de vueltas, agrega los dos
 
                     indice = tabla.rowCount()
                     tabla.insertRow(indice)
@@ -78,19 +79,17 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
         # DISTRIBUCION UNIFORME
         elif (self.aTextEdit.text() != "" and self.bTextEdit.text() != ""):
-
-            
             intervalos = [0] * int(self.intervalosComboBox.currentText())
             desde = int(self.aTextEdit.text())
             hasta = int(self.bTextEdit.text())
             paso = (hasta-desde) / int(self.intervalosComboBox.currentText())
 
-            for i in range(len(intervalos)): #genera los intervalos
+            for i in range(len(intervalos)):  # genera los intervalos
 
                 intervalos[i] = Prueba(desde, desde+paso - 0.0001, 0)
                 desde += paso
 
-            for i in range(n): #genera los numeros 
+            for i in range(n):  # genera los numeros
                 uni = uniforme
                 tabla.insertRow(i)
                 a = uni.uniforme(float(self.aTextEdit.text()),
@@ -98,7 +97,8 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 0, QtWidgets.QTableWidgetItem(str(i+1)))
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
-                for j in range(len(intervalos)): #por cada numero, verifica en que intervalo se encuentra
+                # por cada numero, verifica en que intervalo se encuentra
+                for j in range(len(intervalos)):
 
                     if ((a >= intervalos[j].desde) and (a <= intervalos[j].hasta)):
                         intervalos[j].cantidad += 1
@@ -106,12 +106,11 @@ class AppWin(QMainWindow, Ui_MainWindow):
                         break
 
                 datos.append(a)
-
             self.generarPruebaChi("uniforme", intervalos)
 
         # DISTRIBUCION EXPONENCIAL
         elif (self.lambdaExpTextEdit.text() != ""):  # DATOS INGRESADOS PARA DISTRIBUCION NORMAL
-            for i in range(n): #genera los numeros 
+            for i in range(n):  # genera los numeros
                 exp = exponencial
                 tabla.insertRow(i)
                 a = exp.exponencial(float(self.lambdaExpTextEdit.text()))
@@ -123,7 +122,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
         # DISTRIBUCION POISSON
         elif (self.lambdaPoissonTextEdit.text() != ""):
-            for i in range(n): #genera los numeros
+            for i in range(n):  # genera los numeros
                 poi = poisson
                 tabla.insertRow(i)
                 a = poisson.poisson(float(self.lambdaPoissonTextEdit.text()))
@@ -131,7 +130,6 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
                 datos.append(a)
-
             self.generarPruebaChi("poisson", datos)
 
     def generarGrafico(self):
@@ -140,24 +138,22 @@ class AppWin(QMainWindow, Ui_MainWindow):
         datos = []
         n = tabla.rowCount()
 
-        if (n != 0): #verifica que se hayan generados datos primero, sino no genera el grafico
+        if (n != 0):  # verifica que se hayan generados datos primero, sino no genera el grafico
 
-            for i in range(n): # agrega los RND generados al vector que luego se usa para generar el grafico
+            # agrega los RND generados al vector que luego se usa para generar el grafico
+            for i in range(n):
                 datos.append(float(tabla.item(i, 1).text()))
-
-            
 
             # CHECKEA SI ES POISSON, VIENDO SI EL PARAMETRO ES != ""
             if (self.lambdaPoissonTextEdit.text() != ""):
                 plt.hist(datos)
-
             else:
-
                 # TICS = CANTIDAD DE MARCAS DE INTERVALO EN EL GRAFICO
                 tics = [0] * (int(self.intervalosComboBox.currentText())+1)
                 acum = min(datos)
 
-                for i in range(len(tics)): #genera vector con los valores a poner en las marcas delgrafico
+                # genera vector con los valores a poner en las marcas delgrafico
+                for i in range(len(tics)):
                     tics[i] = acum
                     acum += (max(datos) - min(datos)) / \
                         int(self.intervalosComboBox.currentText())

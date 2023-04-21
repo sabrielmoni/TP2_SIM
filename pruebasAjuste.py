@@ -1,110 +1,57 @@
 from PyQt5.QtWidgets import *
 import math
 
+
 def ajustarFilasChi(self):
     tabla = self.chiTableWidget
 
     i = 0
     esmenor5 = False
-    while( tabla.item(i, 2) != None):
-        
+    while(tabla.item(i, 2) != None):
+
         if (float(tabla.item(i, 3).text()) < 5):
             # esmenor5 = True
             acumulador = float(tabla.item(i, 3).text())
             j = i+1
-            while (acumulador < 5): #agrego filas de abajo hasta llegar a 5
+            while (acumulador < 5):  # agrego filas de abajo hasta llegar a 5
 
-                if ( (tabla.item(i+1, 2) != None) ): #and (float(tabla.item(j, 3).text()) < 5)
-                    fobssum = float(tabla.item(i, 2).text()) + float(tabla.item(j, 2).text())
+                if ((tabla.item(i+1, 2) != None)):  # and (float(tabla.item(j, 3).text()) < 5)
+                    fobssum = float(tabla.item(i, 2).text()) + \
+                        float(tabla.item(j, 2).text())
                     acumulador += float(tabla.item(j, 3).text())
-                    csum= float(tabla.item(i, 4).text()) + float(tabla.item(j, 4).text())
+                    csum = float(tabla.item(i, 4).text()) + \
+                        float(tabla.item(j, 4).text())
 
-
-                    tabla.item(i, 1).setText(tabla.item(j,1).text())
+                    tabla.item(i, 1).setText(tabla.item(j, 1).text())
                     tabla.item(i, 2).setText(str(fobssum))
                     tabla.item(i, 3).setText(str(acumulador))
                     tabla.item(i, 4).setText(str(csum))
-                    tabla.item(i, 5).setText(str(tabla.item(j,5).text()))
-                    
+                    tabla.item(i, 5).setText(str(tabla.item(j, 5).text()))
+
                     tabla.removeRow(i+1)
                 else:
                     break
 
-        i+=1
+        i += 1
 
     j = i-1
-    # while( tabla.item(j, 2) != None):
-    #     if(float(tabla.item(j,3).text()) < 5 ):
-    #         fobssum = float(tabla.item(j, 2).text()) + float(tabla.item(j-1, 2).text())
-    #         acumulador += float(tabla.item(j-1, 3).text())
-    #         csum= float(tabla.item(j, 4).text()) + float(tabla.item(j-1, 4).text())
 
-
-    #         tabla.item(j-1, 1).setText(tabla.item(j,1).text())
-    #         tabla.item(j-1, 2).setText(str(fobssum))
-    #         tabla.item(j-1, 3).setText(str(acumulador))
-    #         tabla.item(j-1, 4).setText(str(csum))
-    #         tabla.removeRow(j)
-    #         j -= 1
-
-    if(float(tabla.item(j,3).text()) < 5 ):
-        fobssum = float(tabla.item(j, 2).text()) + float(tabla.item(j-1, 2).text())
+    if(float(tabla.item(j, 3).text()) < 5):
+        fobssum = float(tabla.item(j, 2).text()) + \
+            float(tabla.item(j-1, 2).text())
         acumulador += float(tabla.item(j-1, 3).text())
-        csum= float(tabla.item(j, 4).text()) + float(tabla.item(j-1, 4).text())
+        csum = float(tabla.item(j, 4).text()) + \
+            float(tabla.item(j-1, 4).text())
 
-
-        tabla.item(j-1, 1).setText(tabla.item(j,1).text())
+        tabla.item(j-1, 1).setText(tabla.item(j, 1).text())
         tabla.item(j-1, 2).setText(str(fobssum))
         tabla.item(j-1, 3).setText(str(acumulador))
         tabla.item(j-1, 4).setText(str(csum))
-        tabla.item(j-1, 5).setText(str( tabla.item(j, 5).text()))
+        tabla.item(j-1, 5).setText(str(tabla.item(j, 5).text()))
         tabla.removeRow(j)
-    print("fin")
 
     return tabla.rowCount()
 
-#         tablaChi = self.chiTableWidget
-
-#         menorA5 = False
-#         freqObservadaAcum = 0
-#         freqEsperadaAcum = 0
-#         IntFinal = 0
-#         vecPosiciones = []
-#         vecRemover = []
-#         for i in range(tablaChi.rowCount()):
-
-#             if(int(tablaChi.item(i, 3).text()) < 5 ): #menor a 5
-
-#                 vecPosiciones.append(i)
-
-#         for i in range(len(vecPosiciones)):
-#             if(i==len(vecPosiciones)-1):
-#                 pass
-#             else:
-
-#                 if(abs(vecPosiciones[i] - vecPosiciones[i+1]) == 1): #estan seguidos
-#                     fobssum = int(tablaChi.item(vecPosiciones[i], 2).text()) + int(tablaChi.item(vecPosiciones[i+1], 2).text())
-#                     fespsum = int(tablaChi.item(vecPosiciones[i], 3).text()) + int(tablaChi.item(vecPosiciones[i+1], 3).text())
-#                     csum= float(tablaChi.item(vecPosiciones[i], 4).text()) + float(tablaChi.item(vecPosiciones[i+1], 4).text())
-
-
-#                     tablaChi.item(vecPosiciones[i], 1).setText(tablaChi.item(vecPosiciones[i+1],1).text())
-#                     tablaChi.item(vecPosiciones[i], 2).setText(str(fobssum))
-#                     tablaChi.item(vecPosiciones[i], 3).setText(str(fespsum))
-#                     tablaChi.item(vecPosiciones[i], 4).setText(str(csum))
-#                     vecRemover.append(i+1)
-
-
-#         for i in range(len(vecRemover)):
-#             tablaChi.removeRow(vecRemover[i])
-
-#                 # if not menorA5: #no hay anterior menor a 5
-#                 #     menorA5 = True
-
-#                 # else: # hay anterior menor a 5
-#                 #     freqObs = int(tablaChi.item(i, 3).text()) + int(tablaChi.item(i-1, 3).text())
-#                 #     if(freqObs > 5):
-#         print('fin')
 
 def tabuladoChi(v):
     '''Devuelve el valor de Chi tabulado para un determinado valor de libertad'''
@@ -319,7 +266,7 @@ class Prueba:
 
         cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 2
-        
+
         # calcula resultado de chi
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
@@ -424,7 +371,7 @@ class Prueba:
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
-        cantidadIntervalos=  ajustarFilasChi(self)
+        cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 1
 
         # calcular resultado de chi
@@ -474,8 +421,8 @@ class Prueba:
             frecuenciaEsperada = round(probabilidadEsperada * cantidadMuestra)
 
             if (frecuenciaEsperada == 0):
-                c = abs(float(intervalos[i].cantidad) - \
-                    probabilidadEsperada * cantidadMuestra)
+                c = abs(float(intervalos[i].cantidad) -
+                        probabilidadEsperada * cantidadMuestra)
             else:
                 c = math.pow(
                     (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
@@ -496,57 +443,9 @@ class Prueba:
                 sumatoria = c
             tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria)))
 
-        # ajustarFilasChi(self)
         cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 1
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
-
-        # vec = []
-        # var = False
-        # ind = -2
-        # for i in range(cantidadIntervalos):
-        #     if(ind != -1):
-        #         if(intervalos[i].cantidad < 5):
-        #             if (var):
-        #                 intervalos[ind].cantidad += intervalos[i].cantidad
-        #                 self.
-        #                 intervalos[ind].hasta = intervalos[cantidadIntervalos].hasta
-        #             else:
-        #                 if(i != 0):
-        #                     ind = i-1
-        #                 else:
-        #                     ind = -1
-        #                 var = True
-        #     else:
-        #         if(intervalos[i].cantidad < 5):
-        #             pass
-        #         else:
-        #             ind = i
-
-        #     else:
-        #         for j in range(cantidadIntervalos-i):
-        #             contador += intervalos[j+i].cantidad
-        #         if(contador < 5):
-        #             intervalos[i-1].cantidad += intervalos[i].cantidad
-        #             intervalos[i-1].hasta = intervalos[i].hasta
-        #         else:
-        #             intervalos[i].cantidad = contador
-        #             intervalos[i].hasta = intervalos[cantidadIntervalos-1]
-
-        # for i in range(cantidadIntervalos):
-        #     for j in vec:
-        #         if (j == i and j>2):
-        #             intervalos[j]
-
-        #         contador = 0
-        #         for j in range(cantidadIntervalos-i):
-        #             contador += datos[j+i].cantidad
-        #         if(contador < 5):
-        #             datos[i-1].cantidad += datos[i].cantidad
-        #             datos[i-1].hasta = datos[i].hasta
-        #         else:
-        #             datos[i].cantidad = contador
-        #             datos[i].hasta = datos[cantidadIntervalos-1]
