@@ -61,32 +61,32 @@ class Ui_MainWindow(object):
         self.lambdaPoissonLabel = QtWidgets.QLabel(self.tabGenerador)
         self.lambdaPoissonLabel.setGeometry(QtCore.QRect(180, 280, 60, 16))
         self.lambdaPoissonLabel.setObjectName("lambdaPoissonLabel")
-        self.mediaTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.mediaTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
         self.mediaTextEdit.setGeometry(QtCore.QRect(310, 110, 104, 16))
         self.mediaTextEdit.setObjectName("mediaTextEdit")
         self.desvTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.desvTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.desvTextEdit.setGeometry(QtCore.QRect(310, 140, 104, 16))
         self.desvTextEdit.setObjectName("desvTextEdit")
         self.bTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.bTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.bTextEdit.setGeometry(QtCore.QRect(310, 70, 104, 16))
         self.bTextEdit.setObjectName("bTextEdit")
         self.aTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.aTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.aTextEdit.setGeometry(QtCore.QRect(310, 40, 104, 16))
         self.aTextEdit.setObjectName("aTextEdit")
         self.lambdaExpTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.lambdaExpTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.lambdaExpTextEdit.setGeometry(QtCore.QRect(310, 210, 104, 16))
         self.lambdaExpTextEdit.setObjectName("lambdaExpTextEdit")
         self.lambdaPoissonTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.lambdaPoissonTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.lambdaPoissonTextEdit.setGeometry(QtCore.QRect(310, 280, 104, 16))
         self.lambdaPoissonTextEdit.setObjectName("lambdaPoissonTextEdit")
         self.valoresTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
-        self.valoresTextEdit = QtWidgets.QLineEdit(self.tabGenerador)
+
         self.valoresTextEdit.setGeometry(QtCore.QRect(160, 370, 251, 20))
         self.valoresTextEdit.setObjectName("valoresTextEdit")
         self.intervalosComboBox = QtWidgets.QComboBox(self.tabGenerador)
