@@ -206,7 +206,7 @@ class Prueba:
             probabilidadEsperada = (math.pow(math.e, (-0.5*(math.pow((x-media)/desviacionEstandar, 2)))))/(
                 desviacionEstandar*math.sqrt(2*math.pi)) * paso
             probabilidadObservada = intervalos[i].cantidad / cantidadMuestra
-            frecuenciaEsperada = int(probabilidadEsperada * cantidadMuestra)
+            frecuenciaEsperada = float(probabilidadEsperada * cantidadMuestra)
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
 
@@ -383,7 +383,6 @@ class Prueba:
 
         # variables y tablas
         tablaChi = self.chiTableWidget
-        tablaKS = self.ksTableWidget
 
         minimo = min(datos)
         maximo = max(datos)
@@ -413,8 +412,8 @@ class Prueba:
             frecuenciaEsperada = round(probabilidadEsperada * cantidadMuestra)
 
             if (frecuenciaEsperada == 0):
-                c = float(intervalos[i].cantidad) - \
-                    probabilidadEsperada * cantidadMuestra
+                c = abs(float(intervalos[i].cantidad) - \
+                    probabilidadEsperada * cantidadMuestra)
             else:
                 c = math.pow(
                     (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
