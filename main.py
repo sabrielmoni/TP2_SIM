@@ -21,7 +21,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
         indice = 0
         tabla = self.tableWidget
 
-        n = int(self.valoresTextEdit.text())
+        n = int(self.valoresTextEdit.text()) # cantidad de valores a generar
 
         datos = []
 
@@ -85,12 +85,12 @@ class AppWin(QMainWindow, Ui_MainWindow):
             hasta = int(self.bTextEdit.text())
             paso = (hasta-desde) / int(self.intervalosComboBox.currentText())
 
-            for i in range(len(intervalos)):
+            for i in range(len(intervalos)): #genera los intervalos
 
                 intervalos[i] = Prueba(desde, desde+paso - 0.0001, 0)
                 desde += paso
 
-            for i in range(n):
+            for i in range(n): #genera los numeros 
                 uni = uniforme
                 tabla.insertRow(i)
                 a = uni.uniforme(float(self.aTextEdit.text()),
@@ -98,7 +98,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
                 tabla.setItem(i, 0, QtWidgets.QTableWidgetItem(str(i+1)))
                 tabla.setItem(i, 1, QtWidgets.QTableWidgetItem(str(a)))
 
-                for j in range(len(intervalos)):
+                for j in range(len(intervalos)): #por cada numero, verifica en que intervalo se encuentra
 
                     if ((a >= intervalos[j].desde) and (a <= intervalos[j].hasta)):
                         intervalos[j].cantidad += 1
@@ -111,7 +111,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
         # DISTRIBUCION EXPONENCIAL
         elif (self.lambdaExpTextEdit.text() != ""):  # DATOS INGRESADOS PARA DISTRIBUCION NORMAL
-            for i in range(n):
+            for i in range(n): #genera los numeros 
                 exp = exponencial
                 tabla.insertRow(i)
                 a = exp.exponencial(float(self.lambdaExpTextEdit.text()))
@@ -123,7 +123,7 @@ class AppWin(QMainWindow, Ui_MainWindow):
 
         # DISTRIBUCION POISSON
         elif (self.lambdaPoissonTextEdit.text() != ""):
-            for i in range(n):
+            for i in range(n): #genera los numeros
                 poi = poisson
                 tabla.insertRow(i)
                 a = poisson.poisson(float(self.lambdaPoissonTextEdit.text()))

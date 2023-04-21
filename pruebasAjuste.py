@@ -1,6 +1,50 @@
 from PyQt5.QtWidgets import *
 import math
 
+# def ajustarFilasChi(self):
+
+#         tablaChi = self.chiTableWidget
+
+#         menorA5 = False
+#         freqObservadaAcum = 0
+#         freqEsperadaAcum = 0
+#         IntFinal = 0
+#         vecPosiciones = []
+#         vecRemover = []
+#         for i in range(tablaChi.rowCount()):
+
+#             if(int(tablaChi.item(i, 3).text()) < 5 ): #menor a 5 
+
+#                 vecPosiciones.append(i)
+
+#         for i in range(len(vecPosiciones)):
+#             if(i==len(vecPosiciones)-1):
+#                 pass
+#             else:
+
+#                 if(abs(vecPosiciones[i] - vecPosiciones[i+1]) == 1): #estan seguidos
+#                     fobssum = int(tablaChi.item(vecPosiciones[i], 2).text()) + int(tablaChi.item(vecPosiciones[i+1], 2).text())
+#                     fespsum = int(tablaChi.item(vecPosiciones[i], 3).text()) + int(tablaChi.item(vecPosiciones[i+1], 3).text())
+#                     csum= float(tablaChi.item(vecPosiciones[i], 4).text()) + float(tablaChi.item(vecPosiciones[i+1], 4).text())
+                    
+
+#                     tablaChi.item(vecPosiciones[i], 1).setText(tablaChi.item(vecPosiciones[i+1],1).text())
+#                     tablaChi.item(vecPosiciones[i], 2).setText(str(fobssum))
+#                     tablaChi.item(vecPosiciones[i], 3).setText(str(fespsum))
+#                     tablaChi.item(vecPosiciones[i], 4).setText(str(csum))
+#                     vecRemover.append(i+1)
+                    
+
+#         for i in range(len(vecRemover)):
+#             tablaChi.removeRow(vecRemover[i])         
+
+#                 # if not menorA5: #no hay anterior menor a 5
+#                 #     menorA5 = True
+
+#                 # else: # hay anterior menor a 5
+#                 #     freqObs = int(tablaChi.item(i, 3).text()) + int(tablaChi.item(i-1, 3).text())
+#                 #     if(freqObs > 5):
+#         print('fin')
 
 def tabuladoChi(v):
     '''Devuelve el valor de Chi tabulado para un determinado valor de libertad'''
@@ -41,6 +85,8 @@ class Prueba:
     def uniformeChi(self, intervalos):
         '''Calcula chi cuadrado y KS para la distribucion uniforme
             entran intervalos con fo'''
+        
+        #variables y tablas
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
 
@@ -53,7 +99,7 @@ class Prueba:
         peAc = 0
         maximo = 0
 
-        for i in range(cantidadIntervalos):
+        for i in range(cantidadIntervalos): #recorre intervalos y crea filas en la tabla
             tablaChi.insertRow(i)
             tablaKS.insertRow(i)
 
@@ -61,32 +107,32 @@ class Prueba:
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
             tablaChi.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) #lim inferior del intervalo
             tablaChi.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta))) # lim superior del intervalo
             tablaChi.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) # freq observada del intervalo
             tablaChi.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
-            tablaChi.setItem(i, 4, QTableWidgetItem(str(c)))
-            if (i > 0):
+                str(frecuenciaEsperada))) # freq esperada del intervalo
+            tablaChi.setItem(i, 4, QTableWidgetItem(str(c))) # C del intevalo
+            if (i > 0): 
                 sumatoria += float(tablaChi.item(i, 4).text())
             else:
                 sumatoria = c
-            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria)))
+            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria))) # Cacum
 
             tablaKS.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde)))#lim inferior del intervalo
             tablaKS.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta))) # lim superior del intervalo
             tablaKS.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) # freq observada del intervalo
             tablaKS.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
+                str(frecuenciaEsperada))) # freq esperada del intervalo
             tablaKS.setItem(i, 4, QTableWidgetItem(
-                str(probabilidadObservada)))
+                str(probabilidadObservada))) #prob obs del intervalo
             tablaKS.setItem(i, 5, QTableWidgetItem(
-                str(probabilidadEsperada)))
+                str(probabilidadEsperada))) #prob esperada del intervalo
             if (i > 0):
                 poAc += float(tablaKS.item(i, 4).text())
                 peAc += float(tablaKS.item(i, 5).text())
@@ -94,12 +140,12 @@ class Prueba:
                 poAc = probabilidadObservada
                 peAc = probabilidadEsperada
             tablaKS.setItem(i, 6, QTableWidgetItem(
-                str(poAc)))
+                str(poAc))) #prob obs acumulada del intervalo
             tablaKS.setItem(i, 7, QTableWidgetItem(
-                str(peAc)))
+                str(peAc))) #prob obs acumulada del intervalo
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
-                str(valorAbs)))
+                str(valorAbs))) #valor absoluto de diferencia de probs
 
             if maximo < valorAbs:
                 maximo = valorAbs
@@ -157,9 +203,15 @@ class Prueba:
             probabilidadEsperada = (math.pow(math.e, (-0.5*(math.pow((x-media)/desviacionEstandar, 2)))))/(
                 desviacionEstandar*math.sqrt(2*math.pi)) * paso
             probabilidadObservada = intervalos[i].cantidad / cantidadMuestra
-            frecuenciaEsperada = probabilidadEsperada * cantidadMuestra
-            c = math.pow(
-                (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
+            frecuenciaEsperada = int(round(probabilidadEsperada * cantidadMuestra, 0))
+            
+            if(frecuenciaEsperada == 0):
+                c= 0
+            else:
+                c = math.pow(
+                    (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
+            
+            
 
             
             tablaChi.setItem(i, 0, QTableWidgetItem(
@@ -206,6 +258,7 @@ class Prueba:
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
+        # ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 2
 
         #calcula resultado de chi 
@@ -326,6 +379,7 @@ class Prueba:
         '''Calcula chi cuadrado para la distribucion exponencial
             entra vector de datos '''
         
+        #variables y tablas
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
 
@@ -337,28 +391,31 @@ class Prueba:
         cantidadMuestra = int(self.valoresTextEdit.text())
         paso = 1
 
-        for i in range(len(intervalos)):
+        for i in range(len(intervalos)): #crea los intervalos 
 
             intervalos[i] = Prueba(minimo, minimo, 0)
             minimo += paso
 
-        for i in range(len(datos)):
+        for i in range(len(datos)): #asigna cada numero en el valor correspondiente
             for j in range(len(intervalos)):
                 if (datos[i] == intervalos[j].desde):
                     intervalos[j].cantidad += 1
                     break
 
-        for i in range(cantidadIntervalos):
+        for i in range(cantidadIntervalos): #por cada valor, genera una fila en las tablas
             tablaChi.insertRow(i)
             tablaKS.insertRow(i)
 
+            #calculos
             probabilidadEsperada = (math.pow(
                 lmbd, intervalos[i].desde) * math.pow(math.e, -lmbd))/math.factorial(intervalos[i].desde)
             frecuenciaEsperada = round(probabilidadEsperada * cantidadMuestra)
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
+            
+            #agrega una fila en chi
             tablaChi.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) 
             tablaChi.setItem(i, 1, QTableWidgetItem(
                 str(intervalos[i].hasta)))
             tablaChi.setItem(i, 2, QTableWidgetItem(
@@ -383,11 +440,20 @@ class Prueba:
             tablaKS.setItem(i, 4, QTableWidgetItem(
                 str(probabilidadEsperada)))
 
+        # ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 1
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
+
+        
+        
+    
+
+
+            
+            
 
         # vec = []
         # var = False
