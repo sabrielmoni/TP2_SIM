@@ -3,6 +3,7 @@ import math
 
 
 def tabuladoChi(v):
+    '''Devuelve el valor de Chi tabulado para un determinado valor de libertad'''
     tabuladoChi = [3.84, 5.99, 7.81, 9.49, 11.1, 12.6, 14.1, 15.5, 16.9,
                    18.3, 19.7, 21.0, 22.4, 23.7, 25.0, 26.3, 27.6, 28.9,
                    30.1, 31.4, 32.7, 33.9, 35.2, 36.4, 37.7, 38.9, 40.1, 41.3, 42.6, 43.8]
@@ -10,6 +11,7 @@ def tabuladoChi(v):
 
 
 def tabuladoKS(n):
+    '''Devuelve el valor de KS tabulado para un determinado valor de libertad'''
     tabuladoKS = [0.975, 0.84189, 0.70760, 0.62394, 0.56328, 0.51926, 0.48342, 0.45427,
                   0.43001, 0.40925, 0.39122, 0.37543, 0.36143, 0.3489, 0.3375, 0.32733,
                   0.31796, 0.30936, 0.30143, 0.29408, 0.28724, 0.28087, 0.2749, 0.26931,
@@ -23,6 +25,7 @@ def tabuladoKS(n):
 
 
 def validacion(calculado, tabulado):
+    '''Compara los calculados y tabulados y devuelve el resultado de la prueba'''
     if (calculado <= tabulado):
         return "NO SE RECHAZA LA HIPOTESIS"
     else:
@@ -36,7 +39,7 @@ class Prueba:
         self.cantidad = cantidad
 
     def uniformeChi(self, intervalos):
-        '''Calcula chi cuadrado para la distribucion uniforme
+        '''Calcula chi cuadrado y KS para la distribucion uniforme
             entran intervalos con fo'''
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
@@ -114,6 +117,10 @@ class Prueba:
         self.resultadoKsTextEdit.setPlainText(validacion(maximo, tabuladoks))
 
     def normalChi(self, datos):
+        '''Calcula KS y chi cuadrado para la distribucion normal
+            entra vector de datos '''
+        
+        #incializa tabla y variables
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
 
@@ -129,21 +136,23 @@ class Prueba:
         peAc = 0
         poAc = 0
 
+        #Realiza el calculo de los intervals y cuenta los valores en cada uno
         for i in range(len(intervalos)):
 
             intervalos[i] = Prueba(minimo, minimo+paso - 0.0001, 0)
             minimo += paso
 
-        for i in range(len(datos)):
-            for j in range(len(intervalos)):
+        for i in range(len(datos)): #recorre los RND y los agrega en el intervalo correspondiente.
+            for j in range(len(intervalos)): #para cada RND recorre los intervalos y verifica donde se encuentra
                 if ((datos[i] >= intervalos[j].desde) and (datos[i] <= intervalos[j].hasta)):
                     intervalos[j].cantidad += 1
                     break
 
-        for i in range(cantidadIntervalos):
+        for i in range(cantidadIntervalos): #por cada intervalo, agrega fila con valores correspondientes en tablas de chi y ks
             tablaChi.insertRow(i)
             tablaKS.insertRow(i)
 
+            # Calcula datos a ingresar en filas
             x = (intervalos[i].desde + intervalos[i].hasta)/2
             probabilidadEsperada = (math.pow(math.e, (-0.5*(math.pow((x-media)/desviacionEstandar, 2)))))/(
                 desviacionEstandar*math.sqrt(2*math.pi)) * paso
@@ -152,33 +161,34 @@ class Prueba:
             c = math.pow(
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
 
+            
             tablaChi.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) #limite inferior del intervalo en la fila
             tablaChi.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta))) #limite superior del intervalo en la fila
             tablaChi.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) #freq Observada del intervalo en la fila
             tablaChi.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
-            tablaChi.setItem(i, 4, QTableWidgetItem(str(c)))
+                str(frecuenciaEsperada))) #freq esperada del intervalo en la fila
+            tablaChi.setItem(i, 4, QTableWidgetItem(str(c))) #valor C del intervalo en la fila
             if (i > 0):
                 sumatoria += float(tablaChi.item(i, 4).text())
             else:
                 sumatoria = c
-            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria)))
+            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria))) #Ingresa CAcumulado del intervalo en la fila
 
             tablaKS.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) # limite inferior del intervalo en la fila
             tablaKS.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta))) # limite superior del intervalo en la fila
             tablaKS.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) # freq Observada del intervalo en la fila
             tablaKS.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
+                str(frecuenciaEsperada))) # freq esperada del intervalo en la fila
             tablaKS.setItem(i, 4, QTableWidgetItem(
-                str(probabilidadObservada)))
+                str(probabilidadObservada))) # probabilidad observada del intervalo en la fila
             tablaKS.setItem(i, 5, QTableWidgetItem(
-                str(probabilidadEsperada)))
+                str(probabilidadEsperada))) # probabilidad esperada del intervalo en la fila
             if (i > 0):
                 poAc += float(tablaKS.item(i, 4).text())
                 peAc += float(tablaKS.item(i, 5).text())
@@ -186,28 +196,35 @@ class Prueba:
                 poAc = probabilidadObservada
                 peAc = probabilidadEsperada
             tablaKS.setItem(i, 6, QTableWidgetItem(
-                str(poAc)))
+                str(poAc))) # prob Obs. acumulada del intervalo en la fila
             tablaKS.setItem(i, 7, QTableWidgetItem(
-                str(peAc)))
+                str(peAc))) # prob Esp. acumulada del intervalo en la fila
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
-                str(valorAbs)))
+                str(valorAbs))) # Valor absoluto de las dos acumuladas
 
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
         v = cantidadIntervalos - 1 - 2
+
+        #calcula resultado de chi 
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
 
+        #calcula resultado de ks
         tabuladoks = tabuladoKS(cantidadMuestra)
         self.ksCalculadoLineEdit.setPlainText(str(maximoKS))
         self.ksTabuladoLineEdit.setPlainText(str(tabuladoks))
         self.resultadoKsTextEdit.setPlainText(validacion(maximoKS, tabuladoks))
 
     def exponencialChi(self, datos):
+        '''Calcula KS y chi cuadrado para la distribucion exponencial
+            entra vector de datos '''
+        
+        #Inicializa las variables y las tablas
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
 
@@ -222,21 +239,23 @@ class Prueba:
         peAc = 0
         poAc = 0
 
+        #Realiza el calculo de los intervals y cuenta los valores en cada uno
         for i in range(len(intervalos)):
 
             intervalos[i] = Prueba(minimo, minimo+paso - 0.0001, 0)
             minimo += paso
 
-        for i in range(len(datos)):
+        for i in range(len(datos)): #recorre los RND y los agrega en el intervalo correspondiente.
             for j in range(len(intervalos)):
                 if ((datos[i] >= intervalos[j].desde) and (datos[i] <= intervalos[j].hasta)):
                     intervalos[j].cantidad += 1
                     break
 
-        for i in range(cantidadIntervalos):
+        for i in range(cantidadIntervalos): #por cada intervalo, agrega fila con valores correspondientes en tablas de chi y ks
             tablaChi.insertRow(i)
             tablaKS.insertRow(i)
 
+            #calcula valores para tabla chi
             probabilidadEsperada = (1-math.pow(math.e, -lmbd*intervalos[i].hasta)) - (
                 1-math.pow(math.e, -lmbd*intervalos[i].desde))
             probabilidadObservada = intervalos[i].cantidad / cantidadMuestra
@@ -245,33 +264,33 @@ class Prueba:
                 (float(intervalos[i].cantidad) - frecuenciaEsperada), 2)/frecuenciaEsperada
 
             tablaChi.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) #limite inferior del intervalo en la fila
             tablaChi.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta)))#limite superior del intervalo en la fila
             tablaChi.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) # freq Observada del intervalo en la fila
             tablaChi.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
-            tablaChi.setItem(i, 4, QTableWidgetItem(str(c)))
+                str(frecuenciaEsperada))) # freq esperada  del intervalo en la fila
+            tablaChi.setItem(i, 4, QTableWidgetItem(str(c))) # valor C del intervalo en la fila
 
             if (i > 0):
                 sumatoria += float(tablaChi.item(i, 4).text())
             else:
                 sumatoria = c
-            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria)))
+            tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria))) # CAcum del intervalo en la fila
 
             tablaKS.setItem(i, 0, QTableWidgetItem(
-                str(intervalos[i].desde)))
+                str(intervalos[i].desde))) #limite inferior del intervalo en la fila
             tablaKS.setItem(i, 1, QTableWidgetItem(
-                str(intervalos[i].hasta)))
+                str(intervalos[i].hasta))) #limite superior del intervalo en la fila
             tablaKS.setItem(i, 2, QTableWidgetItem(
-                str(intervalos[i].cantidad)))
+                str(intervalos[i].cantidad))) # freq Observada del intervalo en la fila
             tablaKS.setItem(i, 3, QTableWidgetItem(
-                str(frecuenciaEsperada)))
+                str(frecuenciaEsperada))) # freq esperada del intervalo en la fila
             tablaKS.setItem(i, 4, QTableWidgetItem(
-                str(probabilidadObservada)))
+                str(probabilidadObservada))) # prob Observada del intervalo en la fila
             tablaKS.setItem(i, 5, QTableWidgetItem(
-                str(probabilidadEsperada)))
+                str(probabilidadEsperada))) # prob esperada del intervalo en la fila
             if (i > 0):
                 poAc += float(tablaKS.item(i, 4).text())
                 peAc += float(tablaKS.item(i, 5).text())
@@ -279,28 +298,34 @@ class Prueba:
                 poAc = probabilidadObservada
                 peAc = probabilidadEsperada
             tablaKS.setItem(i, 6, QTableWidgetItem(
-                str(poAc)))
+                str(poAc))) # prob Obs acum del intervalo en la fila
             tablaKS.setItem(i, 7, QTableWidgetItem(
-                str(peAc)))
+                str(peAc))) # prob Esp acum del intervalo en la fila
             valorAbs = abs(poAc-peAc)
             tablaKS.setItem(i, 8, QTableWidgetItem(
-                str(valorAbs)))
+                str(valorAbs))) # absoluto de dif de probs del intervalo en la fila
 
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
         v = cantidadIntervalos - 1 - 1
+
+        #calcular resultado de chi
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
         self.chiTabuladoTextEdit.setPlainText(str(tabulado))
         self.resultadoChiTextEdit.setPlainText(validacion(sumatoria, tabulado))
 
+        #calcular resultado de KS
         tabuladoks = tabuladoKS(cantidadMuestra)
         self.ksCalculadoLineEdit.setPlainText(str(maximoKS))
         self.ksTabuladoLineEdit.setPlainText(str(tabuladoks))
         self.resultadoKsTextEdit.setPlainText(validacion(maximoKS, tabuladoks))
 
     def poissonChi(self, datos):
+        '''Calcula chi cuadrado para la distribucion exponencial
+            entra vector de datos '''
+        
         tablaChi = self.chiTableWidget
         tablaKS = self.ksTableWidget
 
