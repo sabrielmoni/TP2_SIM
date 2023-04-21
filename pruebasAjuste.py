@@ -24,6 +24,7 @@ def ajustarFilasChi(self):
                     tabla.item(i, 2).setText(str(fobssum))
                     tabla.item(i, 3).setText(str(acumulador))
                     tabla.item(i, 4).setText(str(csum))
+                    tabla.item(i, 5).setText(str(tabla.item(j,5).text()))
                     
                     tabla.removeRow(i+1)
                 else:
