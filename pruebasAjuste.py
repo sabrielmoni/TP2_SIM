@@ -1,7 +1,66 @@
 from PyQt5.QtWidgets import *
 import math
 
-# def ajustarFilasChi(self):
+def ajustarFilasChi(self):
+    tabla = self.chiTableWidget
+
+    i = 0
+    esmenor5 = False
+    while( tabla.item(i, 2) != None):
+        
+        if (float(tabla.item(i, 3).text()) < 5):
+            # esmenor5 = True
+            acumulador = float(tabla.item(i, 3).text())
+            j = i+1
+            while (acumulador < 5): #agrego filas de abajo hasta llegar a 5
+
+                if ( (tabla.item(i+1, 2) != None) ): #and (float(tabla.item(j, 3).text()) < 5)
+                    fobssum = float(tabla.item(i, 2).text()) + float(tabla.item(j, 2).text())
+                    acumulador += float(tabla.item(j, 3).text())
+                    csum= float(tabla.item(i, 4).text()) + float(tabla.item(j, 4).text())
+
+
+                    tabla.item(i, 1).setText(tabla.item(j,1).text())
+                    tabla.item(i, 2).setText(str(fobssum))
+                    tabla.item(i, 3).setText(str(acumulador))
+                    tabla.item(i, 4).setText(str(csum))
+                    
+                    tabla.removeRow(i+1)
+                else:
+                    break
+
+        i+=1
+
+    j = i-1
+    # while( tabla.item(j, 2) != None):
+    #     if(float(tabla.item(j,3).text()) < 5 ):
+    #         fobssum = float(tabla.item(j, 2).text()) + float(tabla.item(j-1, 2).text())
+    #         acumulador += float(tabla.item(j-1, 3).text())
+    #         csum= float(tabla.item(j, 4).text()) + float(tabla.item(j-1, 4).text())
+
+
+    #         tabla.item(j-1, 1).setText(tabla.item(j,1).text())
+    #         tabla.item(j-1, 2).setText(str(fobssum))
+    #         tabla.item(j-1, 3).setText(str(acumulador))
+    #         tabla.item(j-1, 4).setText(str(csum))
+    #         tabla.removeRow(j)
+    #         j -= 1
+
+    if(float(tabla.item(j,3).text()) < 5 ):
+        fobssum = float(tabla.item(j, 2).text()) + float(tabla.item(j-1, 2).text())
+        acumulador += float(tabla.item(j-1, 3).text())
+        csum= float(tabla.item(j, 4).text()) + float(tabla.item(j-1, 4).text())
+
+
+        tabla.item(j-1, 1).setText(tabla.item(j,1).text())
+        tabla.item(j-1, 2).setText(str(fobssum))
+        tabla.item(j-1, 3).setText(str(acumulador))
+        tabla.item(j-1, 4).setText(str(csum))
+        tabla.item(j-1, 5).setText(str( tabla.item(j, 5).text()))
+        tabla.removeRow(j)
+    print("fin")
+
+    return tabla.rowCount()
 
 #         tablaChi = self.chiTableWidget
 
@@ -150,6 +209,7 @@ class Prueba:
             if maximo < valorAbs:
                 maximo = valorAbs
 
+        cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 0
         tabuladochi = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
@@ -256,9 +316,9 @@ class Prueba:
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
-        # ajustarFilasChi(self)
+        cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 2
-
+        
         # calcula resultado de chi
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
@@ -363,6 +423,7 @@ class Prueba:
             if maximoKS < valorAbs:
                 maximoKS = valorAbs
 
+        cantidadIntervalos=  ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 1
 
         # calcular resultado de chi
@@ -435,6 +496,7 @@ class Prueba:
             tablaChi.setItem(i, 5, QTableWidgetItem(str(sumatoria)))
 
         # ajustarFilasChi(self)
+        cantidadIntervalos = ajustarFilasChi(self)
         v = cantidadIntervalos - 1 - 1
         tabulado = tabuladoChi(v)
         self.chiCalculadoTextEdit.setPlainText(str(sumatoria))
